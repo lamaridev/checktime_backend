@@ -1,4 +1,4 @@
-import { AutoIncrement,  Column, DataType, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { AutoIncrement,  Column, DataType, Model, PrimaryKey, Table, Unique } from "sequelize-typescript";
 
 
 @Table({
@@ -30,8 +30,9 @@ class User extends Model {
 
     @Column({
         type: DataType.STRING,
-        unique:true,
         allowNull: false,
+        // unique:true
+
     })
     email!: string;
     
@@ -40,6 +41,13 @@ class User extends Model {
         allowNull: false,
     })
     password!: string;
+
+    @Column({
+        type: DataType.BOOLEAN,
+        allowNull: false,
+        defaultValue:true
+    })
+    enabled!: boolean;
 
     @Column({
         type: DataType.STRING,
@@ -53,6 +61,8 @@ class User extends Model {
         allowNull: true,
     })
     resetpasswordtokenexpire!: Date;
+
+
 
    
 

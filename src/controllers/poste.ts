@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import Poste from "../models/poste";
+import { sequelize } from "../../config/db";
+import { ConnectToCheckTime, InsertPoste } from "../middlewares/connectToChecktime";
 
 export const AllPoste = async (req:Request,res:Response,next:NextFunction): Promise<any> =>{
     try {
@@ -18,15 +20,21 @@ export const AllPoste = async (req:Request,res:Response,next:NextFunction): Prom
 }
 
 export const CreatePoste = async (req:Request,res:Response,next:NextFunction) : Promise<any> =>{
+    const transaction = await sequelize.transaction();
     try {
         const {nom} = req.body;
 
-        const poste = await Poste.create({nom:nom});
+        const poste = await Poste.create({nom:nom},{transaction});
 
-        return res.status(201).json({
-            success: true,
-            data: 'poste created'
-        })
+        InsertPoste({nom,id_poste:poste.id_poste});
+
+
+        // console.log(response)
+
+        // return res.status(201).json({
+        //     success: true,
+        //     data: 'poste created'
+        // })
     } catch (err : any) {
         res.status(500).json({
             success: false,

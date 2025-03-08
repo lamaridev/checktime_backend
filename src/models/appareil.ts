@@ -1,4 +1,4 @@
-import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table, Unique } from "sequelize-typescript";
 import Zone from "./zone";
 
 
@@ -38,7 +38,6 @@ class Appareil extends Model {
     @Column({
         type: DataType.STRING,
         allowNull: false,
-        unique: true
     })
     numeroserie!: string;
 

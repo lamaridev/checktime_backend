@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express"
 import Company from "../models/company";
-import { sequelize } from "../../config/db";
+import Conge from "../models/conge";
 
-export const AllCompany = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-
+export const AllConge = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
-        const company = await Company.findAll();
+
+        const conge = await Conge.findAll();
 
         return res.status(200).json({
             success: true,
-            data: company
+            data: conge
         })
     } catch (err : any) {
         const [ValidationErrorItem] = err.errors;
@@ -23,17 +23,15 @@ export const AllCompany = async (req: Request, res: Response, next: NextFunction
     }
 }
 
-export const CreateCompany = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
-
-    const transaction = await sequelize.transaction();
+export const CreateConge = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
-        const { nom, telephone, nomcontact, numerocontact, adresse,heurematin,heurefin,heurepause,heurereprise } = req.body;
+        const { datedebut,datefin,status,id_employe } = req.body;
 
-        const company = await Company.create({ nom: nom, telephone: telephone, nomcontact: nomcontact, numerocontact: numerocontact, adresse: adresse ,heurefin:heurefin,heurematin:heurematin,heurepause:heurepause,heurereprise:heurereprise});
+        const conge = await Conge.create({ datedebut,datefin,status,id_employe });
 
         return res.status(201).json({
             success: true,
-            data: 'company created'
+            data: 'conge created'
         })
     } catch (err : any) {
         const [ValidationErrorItem] = err.errors;
@@ -47,34 +45,34 @@ export const CreateCompany = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-export const UpdateCompany = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const UpdateConge = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
 
         const { id } = req.params;
         const { nom, telephone, nomcontact, numerocontact, adresse } = req.body;
 
-        const company = await Company.findByPk(id);
+        const conge = await Conge.findByPk(id);
 
 
-        if (!company) {
+        if (!conge) {
             return res.status(404).json({
                 success: true,
-                data: 'company dont existe'
+                data: 'conge dont existe'
             })
         }
 
-        await Company.update(
+        await Conge.update(
             {
                 nom: nom, telephone: telephone, nomcontact: nomcontact, numerocontact: numerocontact, adresse: adresse
             },
             {
-                where: { id_company: id }!
+                where: { id_conge: id }!
             }
         );
 
         return res.status(200).json({
             success: true,
-            data: 'company updated'
+            data: 'conge updated'
         })
 
     } catch (err : any) {
@@ -89,26 +87,26 @@ export const UpdateCompany = async (req: Request, res: Response, next: NextFunct
     }
 }
 
-export const DeleteCompany = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+export const DeleteConge = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
         const { id } = req.params;
 
-        const company = await Company.findByPk(id);
+        const conge = await Conge.findByPk(id);
 
 
-        if (!company) {
+        if (!conge) {
             return res.status(404).json({
                 success: true,
-                data: 'company dont existe'
+                data: 'conge dont existe'
             })
         }
 
-        await company.destroy();
+        await conge.destroy();
 
         
         return res.status(200).json({
             success: true,
-            data: 'company deleted'
+            data: 'conge deleted'
         })
     } catch (err : any) {
         const [ValidationErrorItem] = err.errors;

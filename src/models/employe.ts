@@ -1,7 +1,9 @@
-import { AutoIncrement,  BelongsTo,  Column, DataType, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { AutoIncrement,  BelongsTo,  Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
 import Poste from "./poste";
 import Zone from "./zone";
 import Departement from "./departement";
+import Conge from "./conge";
+import Planning from "./planning";
 
 
 @Table({
@@ -46,6 +48,14 @@ class Employe extends Model {
     id_zone!: number;
 
 
+    @ForeignKey(()=>Planning)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_planning!: number;
+
+
     @Column({
         type: DataType.BOOLEAN,
         allowNull: true,
@@ -74,6 +84,17 @@ class Employe extends Model {
         onDelete: "CASCADE",
     })
     departement!: Departement;
+
+
+    @BelongsTo(() => Planning, {
+        foreignKey: "id_planning", 
+        onUpdate: "CASCADE",
+    })
+    planning!: Planning;
+
+
+    @HasMany(() => Conge) 
+    conges!: Conge[];
 
 
 

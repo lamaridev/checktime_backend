@@ -3,49 +3,43 @@ import { AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from "seque
 
 @Table({
     timestamps: false,
-    tableName: "company",
+    tableName: "absence",
 })
 
-class Company extends Model {
+class Absence extends Model {
     @PrimaryKey
     @AutoIncrement
     @Column({
         type: DataType.INTEGER,
         allowNull: false,
     })
-    id_company!: number;
+    id_absence!: number;
+
+    @Column({
+        type: DataType.DATE,
+        allowNull: false,
+    })
+    date!: Date;
 
     @Column({
         type: DataType.STRING,
         allowNull: false,
     })
-    nom!: string;
+    status!: string;
 
+    @Column({
+        type: DataType.STRING,
+        allowNull: false,
+    })
+    motif!: string;
+    
     @Column({
         type: DataType.STRING,
         allowNull: true,
     })
-    telephone!: string;
-
-    @Column({
-        type: DataType.STRING,
-        allowNull: true,
-    })
-    nomcontact!: string;
-
-    @Column({
-        type: DataType.STRING,
-        allowNull: true,
-    })
-    numerocontact!: string;
-
-    @Column({
-        type: DataType.STRING,
-        allowNull: true,
-    })
-    adresse!: string;
+    document!: string;
 
 }
 
 
-export default Company;
+export default Absence;
