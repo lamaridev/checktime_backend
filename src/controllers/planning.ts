@@ -37,8 +37,6 @@ export const CreatePlanning = async (req: Request, res: Response, next: NextFunc
 
         let query;
 
-        console.log(jours);
-
         if (type === 'standard') {
             query = await Jourtravailstandard.bulkCreate(
                 jours.map((jour: any) => ({

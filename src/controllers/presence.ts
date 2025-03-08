@@ -18,4 +18,14 @@ export const AllPresence = async (req:Request,res:Response,next:NextFunction): P
     }
 }
 
+export const CreatePresence = async (req:Request,res:Response,next:NextFunction): Promise<any> =>{
+    try {
+
+    } catch (err : any) {
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error'
+        })
+    }
+}
 

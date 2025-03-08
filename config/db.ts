@@ -12,6 +12,7 @@ import Absence from "../src/models/absence";
 import Planning from "../src/models/planning";
 import Jourtravailrotation from "../src/models/jourtravailrotation";
 import Jourtravailstandard from "../src/models/jourtravailstandard";
+import Parametre from "../src/models/parametre";
 
 // Instance globale de Sequelize
 export const sequelize = new Sequelize("checktime", "root", "", {
@@ -19,7 +20,7 @@ export const sequelize = new Sequelize("checktime", "root", "", {
   dialect: "mysql",
   port: 3306,
   logging: false,
-  models: [Employe, User, Departement, Company, Poste, Zone, Appareil,Conge,Presence,Absence,Planning,Jourtravailrotation,Jourtravailstandard],
+  models: [Employe, User, Departement, Company, Poste, Zone, Appareil,Conge,Presence,Absence,Planning,Jourtravailrotation,Jourtravailstandard,Parametre],
 });
 
 // Fonction de connexion à la base de données
