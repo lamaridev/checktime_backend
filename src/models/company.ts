@@ -6,6 +6,7 @@ import Appareil from "./appareil";
 import Planning from "./planning";
 import Jourtravailstandard from "./jourtravailstandard";
 import Poste from "./poste";
+import Jourtravailrotation from "./jourtravailrotation";
 
 
 @Table({
@@ -74,6 +75,9 @@ class Company extends Model {
 
     @HasMany(() => Jourtravailstandard)
     jourtravailstandard!: Jourtravailstandard[];
+
+    @HasMany(() => Jourtravailrotation)
+    jourtravailrotation!: Jourtravailrotation[];
 
     @HasMany(() => Poste)
     poste!: Poste[];

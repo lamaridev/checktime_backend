@@ -1,6 +1,7 @@
 import { AutoIncrement,  BelongsTo,  Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
 import Employe from "./employe";
 import Planning from "./planning";
+import Company from "./company";
 
 
 @Table({
@@ -23,6 +24,13 @@ class Jourtravailrotation extends Model {
         allowNull: false,
     })
     id_planning!: number;
+
+    @ForeignKey(()=>Company)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_company!: number;
 
     @Column({
         type: DataType.INTEGER,
@@ -49,6 +57,13 @@ class Jourtravailrotation extends Model {
         onDelete: "CASCADE",
     })
     planning!: Planning;
+
+    @BelongsTo(() => Company, {
+        foreignKey: "id_company", 
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+    })
+    company!: Company;
 
 
    
