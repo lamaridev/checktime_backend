@@ -1,4 +1,6 @@
-import { AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
+import Employe from "./employe";
+import Company from "./company";
 
 
 @Table({
@@ -14,6 +16,21 @@ class Absence extends Model {
         allowNull: false,
     })
     id_absence!: number;
+    
+
+    @ForeignKey(()=>Employe)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_employe!: number;
+
+    @ForeignKey(()=>Company)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_company!: number;
 
     @Column({
         type: DataType.DATE,
@@ -38,6 +55,19 @@ class Absence extends Model {
         allowNull: true,
     })
     document!: string;
+
+
+    @BelongsTo(() => Employe, {
+        foreignKey: "id_employe", 
+        onUpdate: "CASCADE",
+    })
+    employe!: Employe;
+
+    @BelongsTo(() => Company, {
+        foreignKey: "id_company", 
+        onUpdate: "CASCADE",
+    })
+    company!: Company;
 
 }
 

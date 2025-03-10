@@ -41,6 +41,12 @@ import { VerifyAccessToken } from './src/utils/jwt-utils';
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  }));
+
 app.use(`/${process.env.MAIN_ENDPOINT}/${authEndpoint}`, AuthRouter);
 app.use(`/${process.env.MAIN_ENDPOINT}/${userEndpoint}`, UserRouter);
 app.use(`/${process.env.MAIN_ENDPOINT}/${appareilEndpoint}`,VerifyAccessToken, AppareilRouter);

@@ -4,6 +4,8 @@ import Zone from "./zone";
 import Departement from "./departement";
 import Conge from "./conge";
 import Planning from "./planning";
+import Absence from "./absence";
+import Company from "./company";
 
 
 @Table({
@@ -19,6 +21,19 @@ class Employe extends Model {
         allowNull: false,
     })
     id_employe!: number;
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_employe_ext!: number;
+
+    @ForeignKey(()=>Company)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_company!: number;
 
     @Column({
         type: DataType.STRING,
@@ -93,8 +108,18 @@ class Employe extends Model {
     planning!: Planning;
 
 
+    @BelongsTo(() => Company, {
+        foreignKey: "id_company", 
+        onUpdate: "CASCADE",
+    })
+    company!: Company;
+
     @HasMany(() => Conge) 
     conges!: Conge[];
+
+
+    @HasMany(() => Absence) 
+    absences!: Absence[];
 
 
 

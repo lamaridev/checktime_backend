@@ -1,5 +1,6 @@
-import { AutoIncrement,  Column, DataType, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { AutoIncrement,  BelongsTo,  Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
 import Employe from "./employe";
+import Company from "./company";
 
 
 @Table({
@@ -17,6 +18,20 @@ class Poste extends Model {
     id_poste!: number;
 
     @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_poste_ext!: number;
+
+    @ForeignKey(()=>Company)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_company!: number;
+
+
+    @Column({
         type: DataType.STRING,
         allowNull: false,
     })
@@ -32,6 +47,12 @@ class Poste extends Model {
 
     @HasMany(() => Employe) 
     employes!: Employe[];
+
+    @BelongsTo(() => Company, {
+        foreignKey: "id_company", 
+        onUpdate: "CASCADE",
+    })
+    company!: Company;
    
 
 }

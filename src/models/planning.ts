@@ -1,7 +1,8 @@
-import { AutoIncrement,  Column, DataType, HasMany, Model, PrimaryKey, Table, } from "sequelize-typescript";
+import { AutoIncrement,  BelongsTo,  Column, DataType, ForeignKey, HasMany, Model, PrimaryKey, Table, } from "sequelize-typescript";
 import Employe from "./employe";
 import Jourtravailrotation from "./jourtravailrotation";
 import Jourtravailstandard from "./jourtravailstandard";
+import Company from "./company";
 
 
 @Table({
@@ -18,6 +19,13 @@ class Planning extends Model {
     })
     id_planning!: number;
 
+    @ForeignKey(()=>Company)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_company!: number;
+
     @Column({
         type: DataType.STRING,
         allowNull: false,
@@ -32,6 +40,12 @@ class Planning extends Model {
     })
     type!: string;
 
+
+    @BelongsTo(() => Company, {
+        foreignKey: "id_company", 
+        onUpdate: "CASCADE",
+    })
+    company!: Company;
 
     @HasMany(() => Employe) 
     employes!: Employe[];

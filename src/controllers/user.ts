@@ -8,8 +8,6 @@ export const CreateAdmin = async (req: Request, res: Response, next: NextFunctio
     const transaction = await sequelize.transaction();
     try {
 
-        const parametre = await Parametre.create({transaction});
-
         const { email, password, nomcomplet } = req.body;
 
         const hashedPassword = await HashPassword(password)
@@ -19,7 +17,6 @@ export const CreateAdmin = async (req: Request, res: Response, next: NextFunctio
             password: hashedPassword,
             role: 'admin',
             nomcomplet,
-            id_parametre:parametre.id_parametre
         },{transaction});
 
 
@@ -52,36 +49,47 @@ export const CreateAdmin = async (req: Request, res: Response, next: NextFunctio
 }
 
 export const CreateSimple = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    const transaction = await sequelize.transaction();
+
     try {
-
         const { email, password, nomcomplet } = req.body;
+        const hashedPassword = await HashPassword(password);
 
-        const hashedPassword = await HashPassword(password)
+        const user = await User.create(
+            {
+                email,
+                password: hashedPassword,
+                role: "simple",
+                nomcomplet,
+            },
+            { transaction }
+        );
 
-        const user = await User.create({
-            email,
-            password: hashedPassword,
-            role: 'simple',
-            nomcomplet
-        });
+        const parametre = await Parametre.create(
+            {
+                id_user: user.id_user,
+            },
+            { transaction }
+        );
+
+        // ✅ Commit la transaction si tout est OK
+        await transaction.commit();
 
         return res.status(201).json({
             success: true,
-            data: 'simple created'
-        })
-
-
+            data: "simple created",
+        });
     } catch (err: any) {
-        const [ValidationErrorItem] = err.errors;
+        // ❌ Rollback la transaction en cas d'erreur
+        await transaction.rollback();
 
-        const message = ValidationErrorItem?.message || "Internal server error";
+        const message = err?.errors?.[0]?.message || "Internal server error";
 
         res.status(500).json({
             success: false,
-            message
+            message,
         });
-
-
     }
-}
+};
+
 

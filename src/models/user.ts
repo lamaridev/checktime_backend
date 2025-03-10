@@ -1,5 +1,6 @@
-import { AutoIncrement,  BelongsTo,  Column, DataType, ForeignKey, Model, PrimaryKey, Table, Unique } from "sequelize-typescript";
+import { AutoIncrement,  BelongsTo,  Column, DataType, ForeignKey, HasOne, Model, PrimaryKey, Table, Unique } from "sequelize-typescript";
 import Parametre from "./parametre";
+import Company from "./company";
 
 
 @Table({
@@ -16,12 +17,20 @@ class User extends Model {
     })
     id_user!: number;
 
-    @ForeignKey(()=>Parametre)
+    @ForeignKey(()=>Company)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue:null
     })
-    id_parametre!: number;
+    id_company!: number;
+
+    @Column({
+        type: DataType.STRING,
+        allowNull: true,
+        defaultValue:null
+    })
+    nomcompany!: string;
 
     @Column({
         type: DataType.STRING,
@@ -70,13 +79,15 @@ class User extends Model {
     })
     resetpasswordtokenexpire!: Date;
 
-    @BelongsTo(() => Parametre, {
-        foreignKey: "id_parametre", 
+    @BelongsTo(() => Company, {
+        foreignKey: "id_company", 
         onUpdate: "CASCADE",
     })
+    company!: Company;
+
+
+    @HasOne(() => Parametre) 
     parametre!: Parametre;
-
-
 
    
 

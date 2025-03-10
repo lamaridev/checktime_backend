@@ -16,6 +16,12 @@ class Zone extends Model {
         allowNull: false,
     })
     id_zone!: number;
+    
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_zone_ext!: number;
 
     @Column({
         type: DataType.STRING,

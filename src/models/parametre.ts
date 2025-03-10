@@ -1,4 +1,4 @@
- import { AutoIncrement, Column, DataType, HasOne, Model, PrimaryKey, Table } from "sequelize-typescript";
+ import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, HasOne, Model, PrimaryKey, Table } from "sequelize-typescript";
 import User from "./user";
 
 
@@ -15,6 +15,13 @@ class Parametre extends Model {
         allowNull: false,
     })
     id_parametre!: number;
+
+    @ForeignKey(()=>User)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_user!: number;
 
     @Column({
         type: DataType.ENUM('journalier','hebdo','mensuel'),
@@ -59,8 +66,12 @@ class Parametre extends Model {
     etatponct!: boolean;
 
 
-    @HasOne(() => User) 
+    @BelongsTo(() => User, {
+        foreignKey: "id_user", 
+        onUpdate: "CASCADE",
+    })
     user!: User;
+
 
 
 }

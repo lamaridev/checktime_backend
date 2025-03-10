@@ -1,4 +1,11 @@
-import { AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from "sequelize-typescript";
+import { AutoIncrement, Column, DataType, HasMany, Model, PrimaryKey, Table } from "sequelize-typescript";
+import Conge from "./conge";
+import Employe from "./employe";
+import Absence from "./absence";
+import Appareil from "./appareil";
+import Planning from "./planning";
+import Jourtravailstandard from "./jourtravailstandard";
+import Poste from "./poste";
 
 
 @Table({
@@ -14,6 +21,11 @@ class Company extends Model {
         allowNull: false,
     })
     id_company!: number;
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_company_ext!: number;
 
     @Column({
         type: DataType.STRING,
@@ -45,7 +57,28 @@ class Company extends Model {
     })
     adresse!: string;
 
+    @HasMany(() => Conge)
+    conges!: Conge[];
+
+    @HasMany(() => Employe)
+    employes!: Employe[];
+
+    @HasMany(() => Absence)
+    absence!: Absence[];
+
+    @HasMany(() => Appareil)
+    appareil!: Appareil[];
+
+    @HasMany(() => Planning)
+    planning!: Planning[];
+
+    @HasMany(() => Jourtravailstandard)
+    jourtravailstandard!: Jourtravailstandard[];
+
+    @HasMany(() => Poste)
+    poste!: Poste[];
 }
+
 
 
 export default Company;

@@ -29,11 +29,22 @@ export const Login = async (req:Request,res:Response,next:NextFunction): Promise
                 data:'mot de passe incorrect'
             })
         }
+
+        if(user.enabled === false){
+            return res.status(400).json({
+                success:false,
+                data:'User disabled'
+            })
+        }
+
+
         const tokenData = {
             id_user: user.id_user,
             nomcomplet: user.nomcomplet,
             role: user.role,
-            email: user.email
+            email: user.email,
+            id_company:user.id_company,
+            nomcompany:user.nomcompany
         };
         
         const accessToken = GenerateAccessToken(tokenData);
@@ -42,7 +53,10 @@ export const Login = async (req:Request,res:Response,next:NextFunction): Promise
 
         res.status(200).json({
             success:true,
-            data:'login successful'
+            data:{
+                accessToken:accessToken,
+                data:tokenData
+            }
         })
 
 

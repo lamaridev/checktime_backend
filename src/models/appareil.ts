@@ -1,5 +1,6 @@
 import { AutoIncrement, BelongsTo, Column, DataType, ForeignKey, Model, PrimaryKey, Table, Unique } from "sequelize-typescript";
 import Zone from "./zone";
+import Company from "./company";
 
 
 @Table({
@@ -15,6 +16,20 @@ class Appareil extends Model {
         allowNull: false,
     })
     id_appareil!: number;
+
+
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_appareil_ext!: number;
+
+    @ForeignKey(()=>Company)
+    @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_company!: number;
 
     @ForeignKey(() => Zone)
     @Column({
@@ -81,6 +96,12 @@ class Appareil extends Model {
         onDelete: "CASCADE",
     })
     zone!: Zone;
+
+    @BelongsTo(() => Company, {
+        foreignKey: "id_company", 
+        onUpdate: "CASCADE",
+    })
+    company!: Company;
 }
 
 

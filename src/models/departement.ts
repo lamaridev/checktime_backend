@@ -17,6 +17,12 @@ class Departement extends Model {
     id_departement!: number;
 
     @Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+    })
+    id_departement_ext!: number;
+
+    @Column({
         type: DataType.STRING,
         allowNull: false,
     })

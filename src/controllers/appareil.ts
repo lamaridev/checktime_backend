@@ -4,7 +4,6 @@ import Zone from "../models/zone";
 
 export const AllAppareil = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
     try {
-
         const appareil = await Appareil.findAll({
             include:[{
                 model:Zone
